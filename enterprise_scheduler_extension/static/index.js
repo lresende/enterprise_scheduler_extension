@@ -45,7 +45,7 @@ define([
         + td_colspan2
         +'<label for="endpoint">Platform API Endpoint:</label>'
         +'<br/>'
-        +'<input type="text" id="endpoint" name="endpoint" placeholder="##########" value="##########" size="60"/>'
+        +'<input type="text" id="endpoint" name="endpoint" placeholder="##########" value="##############" size="60"/>'
         +'</td>'
         +'</tr>'
 
@@ -61,13 +61,13 @@ define([
         + td
         +'<label for="framework-user">User:</label>'
         +'<br/>'
-        +'<input type="text" id="framework-user" name="framework-user" placeholder="##########" value="##########"/>'
+        +'<input type="text" id="framework-user" name="framework-user" placeholder="##########" value="##############"/>'
         +'</td>'
 
         + td_colspan2
         +'<label for="framework-userinfo">User/Instance information:</label>'
         +'<br/>'
-        +'<input type="text" id="framework-userinfo" name="framework-userinfo" placeholder="##########" value="##########" size="35"/>'
+        +'<input type="text" id="framework-userinfo" name="framework-userinfo" placeholder="##########" value="##############" size="35"/>'
         +'</td>'
         +'</tr>'
 
@@ -95,7 +95,7 @@ define([
         + td_colspan3
         +'<label for="cos_endpoint">COS Endpoint:</label>'
         +'<br/>'
-        +'<input type="text" id="cos_endpoint" name="cos_endpoint" placeholder="##########" value="##########" size="35"/>'
+        +'<input type="text" id="cos_endpoint" name="cos_endpoint" placeholder="##########" value="##############" size="35"/>'
         +'</td>'
         +'</tr>'
 
@@ -103,13 +103,13 @@ define([
         + td
         +'<label for="cos_user">COS User:</label>'
         +'<br/>'
-        +'<input type="text" id="cos_user" name="cos_user" placeholder="##########" value="##########" size="20"/>'
+        +'<input type="text" id="cos_user" name="cos_user" placeholder="##########" value="##############t" size="20"/>'
         +'</td>'
 
         + td
         +'<label for="cos_password">COS Password:</label>'
         +'<br/>'
-        +'<input type="password" id="cos_password" name="cos_password" placeholder="##########" value="##########" size="20"/>'
+        +'<input type="password" id="cos_password" name="cos_password" placeholder="##########" value="##############" size="20"/>'
         +'</td>'
         +'</tr>'
 
@@ -171,11 +171,10 @@ define([
                             success: function(data){
                                 console.log('Inside ui extension callback')
                                 console.log("Data: ", data)
-
                                 dialog.modal({
                                     sanitize: false,
-                                    title: 'Job submitted to ' + options['platform'] + 'Successfully!',
-                                    body: 'Check details on submited jobs at : <br/><br/> <a href="##########" target="_blank">Console & Job Status</a>',
+                                    title: 'Job submitted to ' + options['platform'] + JSON.parse(JSON.stringify(data))['title'],
+                                    body: JSON.parse(JSON.stringify(data))['message'] + '<br><br> Check details on submitted jobs at : <br> <a href=' + JSON.parse(JSON.stringify(data))['job_url'] + ' target="_blank">Console & Job Status</a>',
                                     buttons: {
                                         'OK': {}
                                     }

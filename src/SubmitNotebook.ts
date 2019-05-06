@@ -8,6 +8,8 @@ import {IDisposable} from "@phosphor/disposable";
 import {URLExt} from "@jupyterlab/coreutils";
 import {ServerConnection} from "@jupyterlab/services";
 
+import Utils from './utils'
+
 /**
  * Details about notebook submission configuration, including
  * details about the remote platform and any other
@@ -55,8 +57,8 @@ export class SubmitNotebookButtonExtension implements DocumentRegistry.IWidgetEx
   readonly app: JupyterFrontEnd;
 
   showWidget = () => {
-    let envVars: string[] = this.getEnvVars(this.panel.content.model.toString());
-    console.log(envVars)
+    let envVars: string[] = Utils.getEnvVars(this.panel.content.model.toString());
+    console.log(envVars);
 
     showDialog({
       title: 'Submit notebook',
@@ -91,34 +93,6 @@ export class SubmitNotebookButtonExtension implements DocumentRegistry.IWidgetEx
         });
       });
   };
-
-  getEnvVars(notebookStr: string): string[] {
-    let envVars: string[] = [];
-    let notebook = JSON.parse(notebookStr);
-
-    for (let cell of notebook['cells']) {
-      if (cell['cell_type'] == 'code') {
-        envVars = envVars.concat(this.findEnvVars(cell['source']));
-      }
-    }
-
-    return [...new Set(envVars)];
-  }
-
-  findEnvVars(code: string): string[] {
-    let foundEnv: string[] = [];
-    let codeLines = code.split(/\r?\n/);
-
-    for (let codeLine of codeLines) {
-      let match = codeLine.match(/os\.environ\[([^\]]+)\]/);
-      if (match) {
-        foundEnv.push(match[1].slice(1,-1));
-      }
-    }
-
-    return foundEnv;
-  }
-
 
   createNew(panel: NotebookPanel, context: DocumentRegistry.IContext<INotebookModel>): IDisposable {
     this.panel = panel;

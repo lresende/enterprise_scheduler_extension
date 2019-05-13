@@ -29,6 +29,8 @@ export interface ISubmitNotebookConfiguration extends JSONObject {
   cos_endpoint: string,
   cos_user: string,
   cos_password: string,
+
+  env: { [index: string]: string }
 }
 
 /**
@@ -58,11 +60,10 @@ export class SubmitNotebookButtonExtension implements DocumentRegistry.IWidgetEx
 
   showWidget = () => {
     let envVars: string[] = Utils.getEnvVars(this.panel.content.model.toString());
-    console.log(envVars);
 
     showDialog({
       title: 'Submit notebook',
-      body: new SubmitNotebook(),
+      body: new SubmitNotebook(envVars),
       buttons: [Dialog.cancelButton(), Dialog.okButton()]
     }).then( result => {
       let notebookTask: ISubmitNotebookTask = <ISubmitNotebookTask> result.value;
@@ -121,9 +122,12 @@ export class SubmitNotebookButtonExtension implements DocumentRegistry.IWidgetEx
  */
 export class SubmitNotebook extends Widget implements Dialog.IBodyWidget<ISubmitNotebookConfiguration>  {
   private _htmlDialogElement: HTMLElement;
+  _envVars: string[];
 
-  constructor() {
+  constructor(envVars: string[]) {
     super();
+
+    this._envVars = envVars;
 
     this._htmlDialogElement = this.renderHtml();
 
@@ -239,6 +243,8 @@ export class SubmitNotebook extends Widget implements Dialog.IBodyWidget<ISubmit
 
     +'</tr>'
 
+    + this.getEnvHtml()
+
     +'</tbody></table>'
 
     let htmlContent = document.createElement('div');
@@ -247,11 +253,49 @@ export class SubmitNotebook extends Widget implements Dialog.IBodyWidget<ISubmit
     return htmlContent;
   }
 
+  getEnvHtml(): string {
+    let tr = '<tr style="padding: 1px;">';
+    let td = '<td style="padding: 1px;">';
+    let td_colspan4 = '<td style="padding: 1px;" colspan=4>';
+    let subtitle = '<div style="font-size: var(--jp-ui-font-size3)">Environmental Variables</div>'
+
+    let html = '' + tr + td_colspan4 + subtitle + '</td>' + '</tr>';
+
+    for (let i = 0; i < this._envVars.length; i++) {
+
+      if (i % 4 === 0) {
+        html = html + tr;
+      }
+
+      html = html + td
+        +`<label for="envVar${i}">${this._envVars[i]}:</label>`
+        +'<br/>'
+        +`<input type="text" id="envVar${i}" class="envVar" name="envVar${i}" placeholder="" value="" size="20"/>`
+        +'</td>';
+
+      if (i % 4 === 3) {
+        html = html + '</tr>';
+      }
+    }
+
+
+    return html;
+  }
+
   getValue(): ISubmitNotebookConfiguration {
 
     let dependency_list = '';
     if ((<HTMLInputElement> document.getElementById('dependency_include')).value == "true") {
       dependency_list = (<HTMLInputElement>document.getElementById('dependencies')).value
+    }
+
+    let envVars: { [index: string]: string } = {};
+
+    let envElements = document.getElementsByClassName('envVar');
+
+    for (let i = 0; i < envElements.length; i++) {
+      let index: number  = parseInt(envElements[i].id.match(/\d+/)[0], 10);
+      envVars[this._envVars[index]] = (<HTMLInputElement>envElements[i]).value;
     }
 
     let returnData: ISubmitNotebookConfiguration = {
@@ -268,6 +312,8 @@ export class SubmitNotebook extends Widget implements Dialog.IBodyWidget<ISubmit
       cos_endpoint: (<HTMLInputElement>document.getElementById('cos_endpoint')).value,
       cos_user: (<HTMLInputElement>document.getElementById('cos_user')).value,
       cos_password: (<HTMLInputElement>document.getElementById('cos_password')).value,
+
+      env: envVars,
     };
 
     return returnData;

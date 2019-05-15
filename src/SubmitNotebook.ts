@@ -27,6 +27,7 @@ export interface ISubmitNotebookConfiguration extends JSONObject {
   dependencies: string,
 
   cos_endpoint: string,
+  cos_bucket: string,
   cos_user: string,
   cos_password: string,
 
@@ -145,7 +146,6 @@ export class SubmitNotebook extends Widget implements Dialog.IBodyWidget<ISubmit
     var td = '<td style="padding: 1px;">';
     var td_colspan2 = '<td style="padding: 1px;" colspan=2>';
     var td_colspan3 = '<td style="padding: 1px;" colspan=3>';
-    var td_colspan4 = '<td style="padding: 1px;" colspan=4>';
 
     var content = ''
     +'<table id="table-submit-dialog"><tbody>'
@@ -205,12 +205,17 @@ export class SubmitNotebook extends Widget implements Dialog.IBodyWidget<ISubmit
     +'</tr>'
 
     + tr
-    + td_colspan4
+    + td_colspan3
     +'<label for="cos_endpoint">COS Endpoint:</label>'
     +'<br/>'
-    +'<input type="text" id="cos_endpoint" name="cos_endpoint" placeholder="##########" value="#############" size="58"/>'
+    +'<input type="text" id="cos_endpoint" name="cos_endpoint" placeholder="##########" value="#############" size="65"/>'
     +'</td>'
-    +'</tr>'
+
+    + td
+    +'<label for="cos_user">COS Bucket Name:</label>'
+    +'<br/>'
+    +'<input type="text" id="cos_bucket" name="cos_bucket" placeholder="##########" value="#############" size="20"/>'
+    +'</td>'
 
     + tr
     + td
@@ -310,6 +315,7 @@ export class SubmitNotebook extends Widget implements Dialog.IBodyWidget<ISubmit
       dependencies: dependency_list,
 
       cos_endpoint: (<HTMLInputElement>document.getElementById('cos_endpoint')).value,
+      cos_bucket: (<HTMLInputElement>document.getElementById('cos_bucket')).value,
       cos_user: (<HTMLInputElement>document.getElementById('cos_user')).value,
       cos_password: (<HTMLInputElement>document.getElementById('cos_password')).value,
 

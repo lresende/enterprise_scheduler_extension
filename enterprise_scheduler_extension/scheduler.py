@@ -35,8 +35,10 @@ class SchedulerHandler(IPythonHandler):
         task['gpus'] = options['gpus']
         task['memory'] = options['memory']
         task['cos_endpoint'] = options['cos_endpoint']
+        task['cos_bucket'] = options['cos_bucket']
         task['cos_user'] = options['cos_user']
         task['cos_password'] = options['cos_password']
+        task['env'] = options['env']
         task['kernelspec'] = 'python3'
 
         #Add Dependencies

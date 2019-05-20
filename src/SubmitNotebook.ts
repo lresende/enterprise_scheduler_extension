@@ -27,7 +27,8 @@ export interface ISubmitNotebookConfiguration extends JSONObject {
   dependencies: string,
 
   cos_endpoint: string,
-  cos_bucket: string,
+  cos_bucket_in: string,
+  cos_bucket_out: string,
   cos_user: string,
   cos_password: string,
 
@@ -144,7 +145,6 @@ export class SubmitNotebook extends Widget implements Dialog.IBodyWidget<ISubmit
   renderHtml() {
     var tr = '<tr style="padding: 1px;">';
     var td = '<td style="padding: 1px;">';
-    var td_colspan2 = '<td style="padding: 1px;" colspan=2>';
     var td_colspan3 = '<td style="padding: 1px;" colspan=3>';
 
     var content = ''
@@ -160,7 +160,7 @@ export class SubmitNotebook extends Widget implements Dialog.IBodyWidget<ISubmit
     + td_colspan3
     +'<label for="endpoint">Platform API Endpoint:</label>'
     +'<br/>'
-    +'<input type="text" id="endpoint" name="endpoint" placeholder="##########" value="#############" size="65"/>'
+    +'<input type="text" id="endpoint" name="endpoint" placeholder="##########" value="##########" size="65"/>'
     +'</td>'
     +'</tr>'
 
@@ -194,13 +194,13 @@ export class SubmitNotebook extends Widget implements Dialog.IBodyWidget<ISubmit
     + td
     +'<label for="user">User:</label>'
     +'<br/>'
-    +'<input type="text" id="user" name="user" placeholder="##########" value="#############"/>'
+    +'<input type="text" id="user" name="user" placeholder="##########" value="##########"/>'
     +'</td>'
 
     + td_colspan3
     +'<label for="userinfo">User/Instance information:</label>'
     +'<br/>'
-    +'<input type="text" id="userinfo" name="userinfo" placeholder="##########" value="#############" size="35"/>'
+    +'<input type="text" id="userinfo" name="userinfo" placeholder="##########" value="##########" size="35"/>'
     +'</td>'
     +'</tr>'
 
@@ -208,29 +208,35 @@ export class SubmitNotebook extends Widget implements Dialog.IBodyWidget<ISubmit
     + td_colspan3
     +'<label for="cos_endpoint">COS Endpoint:</label>'
     +'<br/>'
-    +'<input type="text" id="cos_endpoint" name="cos_endpoint" placeholder="##########" value="#############" size="65"/>'
+    +'<input type="text" id="cos_endpoint" name="cos_endpoint" placeholder="##########" value="##########" size="65"/>'
     +'</td>'
 
     + td
-    +'<label for="cos_user">COS Bucket Name:</label>'
-    +'<br/>'
-    +'<input type="text" id="cos_bucket" name="cos_bucket" placeholder="##########" value="#############" size="20"/>'
     +'</td>'
 
     + tr
     + td
     +'<label for="cos_user">COS User:</label>'
     +'<br/>'
-    +'<input type="text" id="cos_user" name="cos_user" placeholder="##########" value="##############t" size="20"/>'
+    +'<input type="text" id="cos_user" name="cos_user" placeholder="##########" value="##########" size="20"/>'
     +'</td>'
 
     + td
     +'<label for="cos_password">COS Password:</label>'
     +'<br/>'
-    +'<input type="password" id="cos_password" name="cos_password" placeholder="##########" value="##############" size="20"/>'
+    +'<input type="password" id="cos_password" name="cos_password" placeholder="##########" value="##########" size="20"/>'
     +'</td>'
 
-    + td_colspan2
+    + td
+    +'<label for="cos_user">COS Input Bucket Name:</label>'
+    +'<br/>'
+    +'<input type="text" id="cos_bucket_in" name="cos_bucket_in" placeholder="##########" value="##########" size="20"/>'
+    +'</td>'
+
+    + td
+    +'<label for="cos_user">COS Output Bucket Name:</label>'
+    +'<br/>'
+    +'<input type="text" id="cos_bucket_out" name="cos_bucket_out" placeholder="##########" value="##########" size="20"/>'
     +'</td>'
 
     +'</tr>'
@@ -315,7 +321,8 @@ export class SubmitNotebook extends Widget implements Dialog.IBodyWidget<ISubmit
       dependencies: dependency_list,
 
       cos_endpoint: (<HTMLInputElement>document.getElementById('cos_endpoint')).value,
-      cos_bucket: (<HTMLInputElement>document.getElementById('cos_bucket')).value,
+      cos_bucket_in: (<HTMLInputElement>document.getElementById('cos_bucket_in')).value,
+      cos_bucket_out: (<HTMLInputElement>document.getElementById('cos_bucket_out')).value,
       cos_user: (<HTMLInputElement>document.getElementById('cos_user')).value,
       cos_password: (<HTMLInputElement>document.getElementById('cos_password')).value,
 

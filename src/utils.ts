@@ -11,12 +11,17 @@ export default class Utils {
   static getEnvVars(notebookStr: string): string[] {
     let envVars: string[] = [];
     let notebook = JSON.parse(notebookStr);
+    let match_regex = /os\.environ(?:\["([^"]+)|\['([^']+)|\.get\("([^"]+)|\.get\('([^']+))/;
 
     for (let cell of notebook['cells']) {
       if (cell['cell_type'] == 'code') {
-        let matchedEnv: string[][] = this.findInCode(cell['source'], /os\.environ\[([^\]]+)\]/);
+        let matchedEnv: string[][] = this.findInCode(cell['source'], match_regex);
         for (let match of matchedEnv) {
-          envVars.push(match[1].slice(1,-1))
+          for (let i = 1; i < match.length; i++) {
+            if (match[i]) {
+              envVars.push(match[i]);
+            }
+          }
         }
       }
     }

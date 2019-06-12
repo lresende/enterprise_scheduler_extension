@@ -296,7 +296,7 @@ export class SubmitNotebook extends Widget implements Dialog.IBodyWidget<ISubmit
     let td_colspan4 = '<td style="padding: 1px;" colspan=4>';
     let subtitle = '<div style="font-size: var(--jp-ui-font-size3)">Environmental Variables</div>'
 
-    let html = '' + tr + td_colspan4 + subtitle + '</td>' + '</tr>';
+    let html = '';
 
     for (let i = 0; i < this._envVars.length; i++) {
 
@@ -315,6 +315,9 @@ export class SubmitNotebook extends Widget implements Dialog.IBodyWidget<ISubmit
       }
     }
 
+    if (html != '') {
+      html = tr + td_colspan4 + subtitle + '</td>' + '</tr>' + html;
+    }
 
     return html;
   }

@@ -56,3 +56,7 @@
 .p-Widget a {
     color: #1970b7;
 }
+
+.dlw-Table-experiments-header td {
+    font-weight: bold;
+}

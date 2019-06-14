@@ -4,8 +4,7 @@
  }
 
 .dlw-Table-experiments {
-    font-family: -apple-system, "BlinkMacSystemFont", "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Open Sans", "Helvetica Neue", "Icons16", sans-serif;
-    font-size: 12px;
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
     width: 100%;
     background-color: #ffffff;
     margin-top: 5px;
@@ -21,20 +20,16 @@
     margin-right: 5px;
 }
 
-.dlw-Table-experiments tr: {
-    background-color: #f7f7f7;
-}
-
-.dlw-Table-experiments tr:hover {
+.dlw-Table-experiments tr:hover:nth-child(even) {
     background-color: #ddd;
 }
 
-.dlw-Table-experiments tr:nth-child(even):not(.dlw-Table-experiments-completed) {
-    background-color: #f2f2f2;
+.dlw-Table-experiments tr:hover:nth-child(odd) {
+    background-color: #ddd;
 }
 
-tr.dlw-Table-experiments-completed {
-    background-color: #dee4e0;
+.dlw-Table-experiments tr:nth-child(even) {
+    background-color: #f2f2f2;
 }
 
 .dlw-Table-experiments td {
@@ -44,13 +39,10 @@ tr.dlw-Table-experiments-completed {
 
 .dlw-Table-experiments thead {
     color: #495057;
+
     background-color: #e9ecef;
     padding-left: 10px;
     padding-right: 10px;
-}
-
-.dlw-Table-experiments-header td {
-    font-weight: bold;
 }
 
 .dlw-notebookExperimentWidget {
@@ -63,4 +55,8 @@ tr.dlw-Table-experiments-completed {
 
 .p-Widget a {
     color: #1970b7;
+}
+
+.dlw-Table-experiments-header td {
+    font-weight: bold;
 }

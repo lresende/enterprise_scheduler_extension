@@ -31,10 +31,10 @@ export class NotebookExperimentWidget extends Widget {
 
     let tableHeadRow = tableHead.insertRow();
     tableHeadRow.className = "dlw-Table-experiments-header";
-    tableHeadRow.insertCell(0).innerText = "MODEL ID";
-    tableHeadRow.insertCell(1).innerText = "NAME";
-    tableHeadRow.insertCell(2).innerText = "DESCRIPTION";
-    tableHeadRow.insertCell(3).innerText = "STATUS";
+    tableHeadRow.insertCell(0).innerText = "Model ID";
+    tableHeadRow.insertCell(1).innerText = "Name";
+    tableHeadRow.insertCell(2).innerText = "Description";
+    tableHeadRow.insertCell(3).innerText = "Status";
 
     return table;
   }
@@ -105,16 +105,20 @@ export class NotebookExperimentWidget extends Widget {
           let model:JSONObject = json.models[i];
           let training: JSONObject = <JSONObject> model.training;
           let training_status: JSONObject = <JSONObject> training.training_status;
-          let statusText = training_status.status.toString();
 
           let tableRow = table.insertRow();
+          tableRow.className = "dlw-Table-experiments";
           tableRow.insertCell(0).innerText = model.model_id.toString();
           tableRow.insertCell(1).innerText = model.name.toString();
           tableRow.insertCell(2).innerText = model.description.toString();
-          tableRow.insertCell(3).innerText = statusText;
 
-          tableRow.className = statusText === "COMPLETED" ?  "dlw-Table-experiments-completed" : "dlw-Table-experiments";
+          let statusText = training_status.status.toString();
+          if (statusText == "COMPLETE"){
+
+          }
+          tableRow.insertCell(3).innerText = training_status.status.toString();
         }
+
         this.div.innerHTML = ""
         this.div.appendChild(table);
       });

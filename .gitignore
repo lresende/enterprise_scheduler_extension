@@ -70,5 +70,11 @@ target/
 # Build-related
 .image-*
 
+# Jupyter Notebook-related
+*.ipynb
+
 tsconfig.tsbuildinfo
 node_modules
+
+*.lock
+
